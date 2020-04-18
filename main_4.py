@@ -11,7 +11,7 @@
 # -> *task 4: Ввести из консоли строку. Найти в строке самое длинное слово, в котором присутствуют подряд
 #   две согласные буквы. Если в строке присутствует слово с тремя согласными буквами подряд - завершить выполнение.
 #####################################################################################################################
-options = ["1", "2", "3", "4","all", "quit"]
+options = ["1", "2", "3", "4", "all", "quit"]
 while True:
     print("+--------------------------------+")
     print("|  Первое задание       |  1     |")
@@ -21,7 +21,8 @@ while True:
     print("|  Все по очереди       |  all   |")
     print("|  Завершение программы |  quit  |")
     print("+--------------------------------+")
-    task = input(">>> Введите режим работы: ")
+    # task = input(">>> Введите режим работы: ")
+    task = "1"
 
     if task == "quit":
         break
@@ -43,28 +44,35 @@ while True:
         # В1 - телефон (правило + и 12 цифр),
         # В2 - имейл (правило - @ по средине, имя не менее 3 букв, доменное имя буквы три буквы
         # В3 - имя фамилия (правило - два слова через пробел, каждое с большой буквы)
-
         st = input().split()
-
         for word in st:
             if len(word) == 13 and word.startswith('+') and word[1:].isdigit():
-                print('This is phone number')
+                print('Это телефоный номер\n')
             elif '@' in word:
-                temp = word.split('@')
-                if len(temp[0]) >= 3 and temp[0].isalpha():
-                    if 0 < temp[1].find('.') < 3:
+                # должна быть @ по середине
+                # должно быть три символа до и после
+                # должна быть точка во втором слове
+                tmp = word.split('@')
+                flag = len(tmp[0]) >= 3 and len(tmp[1]) >= 3
+                flag_1 = tmp[0].isalpha()
+                flag_2 = tmp[1][tmp[1].find('.')].isalpha()
+                flag_3 = len(tmp) == 2
+                if tmp[0].isalpha() and tmp[1][tmp[1].find('.')].isalpha() and len(tmp) == 2 and flag:
+                    if 0 < tmp[1].find('.') < 3:
+                        print("Это имэйл\n")
+            elif word[:1].isupper() and len(word) >= 2:
+                print("Либо имя, либо фамилия")
+            else:
+                print("Не понимаючто это")
 
     if task == "2" or task == "all":
-
         # task 2:
         print("\n-> Задание 2:")
 
     if task == "3" or task == "all":
-
         # task 3:
         print("\n-> Задание 3:")
 
     if task == "4" or task == "all":
-
         # task 4:
         print("\n-> Задание 4:")
