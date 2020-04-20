@@ -128,19 +128,23 @@ while True:
 		
 		# task 4:
 		print("\n-> Задание 4:")
-		str1 = input(">>> Введите предложение: ")
-		str1 = str1.lower()
-		str1 = str1.split()
-		# a, i, u, e, o, y
-		check = 0
-		for i in str1:
-			if i.isalpha():
-				for j in i:
-					if not(j == "a" or j == "i" or j == "u" or j == "e" or j == "o" or j == "y"):
-						check += 1
-					else:
-						check = 0
-				if check == 2:
-					print("found")
-				elif check == 3:
-					print("end")
+		flag = True
+		while flag:
+			str1 = input(">>> Введите предложение: ")
+			str1 = str1.lower()
+			str1 = str1.split()
+			# a, i, u, e, o, y
+			for i in str1:
+				if i.isalpha():
+					check = 0
+					for j in i:
+						if not(j == "a" or j == "i" or j == "u" or j == "e" or j == "o" or j == "y"):
+							check += 1
+						else:
+							check = 0
+					if check == 2:
+						print("found word with 2 check: ", i)
+					elif check == 3:
+						print("found word with 3 check: ", i)
+						flag = False
+						break
