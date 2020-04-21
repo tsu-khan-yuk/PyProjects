@@ -1,6 +1,6 @@
 #####################################################################################################################
 # Выполнил: Иван Суханюк(Курс: Intro Python (07.04.2020))
-# Последние изменения: 20.04.2020
+# Последние изменения: 21.04.2020
 # -> task 1: Доделайте последнее задание из практики (Искусственный интеллект)
 # -> task 2: Дан list произвольных чисел (напр [11, 77, 4, 22, 0, 56, 5, 95, 7, 87, 13, 45, 67, 44,]).
 #   Написать программу, которая удалит из него все числа, которые меньше 18 и больше 81.
@@ -45,12 +45,12 @@ while True:
 
         # task 1:
         print("\n-> Задание 1:")
-        st = input().split()
+        st = input("Введите имя/фамилия/e-mail/номер телефона: ").split()
         for word in st:
             if word.startswith('+') and len(word) == 13 and word[1:].isdigit():
                 # Если слово начинается с плюса, длинной в 13 элементов и после 0 элемента все цыфры,
                 # то это номер телефона
-                print('Это телефоный номер')
+                print('Найден телефоный номер:', word)
             elif '@' in word and "." in word:
                 # Если в слове есть "@" и ".", то возможно это e-mail
                 tmp = word.split('@')
@@ -60,14 +60,14 @@ while True:
                     # "." находитьс во втором слове после "@",
                     # второе слово не начинается и не заканчивается на "."
                     # и если после "." <= 3 элементов, то это точно e-mail
-                    print("Это e-mail")
+                    print("Найден e-mail:", word)
             elif word[:1].isupper() and len(word) >= 2:
                 # Если первая буква слова большая и если больше или равно 2
                 # то это либо имя, либо фамимлия
-                print("Либо имя, либо фамилия")
+                print("Либо имя, либо фамилия:", word)
             else:
                 print("Не понимаю что это")
-        if task == "1":
+        if task == "1":     # Что бы дальше провреки переменной task не происходили
             continue
 
     if task == "2" or task == "all":
@@ -133,14 +133,26 @@ while True:
             else:
                 i += 1
         print("After: ", lst1)
-        if task == "2":
+        if task == "2":     # Что бы дальше провреки переменной task не происходили
             continue
 
     if task == "3" or task == "all":
+
         # task 3:
         print("\n-> Задание 3:")
-        print("""Посмотреть """)
-        if task == "3":
+        print("""Алгоритм перехода дороги роботом:
+1) Посмотреть вперед и проверить наличие пешеходного перехода перед роботом
+2) Если пешеходный переход не найден, то выдать ошибку
+\tЕсли пешеходный переход впереди присутствует, то проверить наличие светофора на пешеходном переходе
+\t\t-- Если светофор есть: 
+\t\t3) Смотреть вперед до тех пора пока на светофоре не будет гореть зеленый свет
+\t\t\tЕсли зеленый свет загорелся, то идти вперед до тех пор пока не закончиться переход
+\t\t-- Если светофора нету:
+\t\t3) Посмтореть на лево, если машин нету или машины(а) остановились(лась) перед переходом, то идти вперед до половины
+\t\t\tдороги
+\t\t4) Посмотреть на право, если машин нету или машины(а) остановились(лась) перед переходом, то идти конца дороги
+Завершение...\n""")
+        if task == "3":     # Что бы дальше провреки переменной task не происходили
             continue
 
     if task == "4" or task == "all":
@@ -151,23 +163,29 @@ while True:
         while flag:
             str1 = input(">>> Введите предложение: ")
             str1 = str1.split()
-            long = ""
+            two_consonants = [""]
             three_consonants = ""
-            for i in str1:
-                buff = i
-                i.lower()
-                if i.isalpha():
-                    check = None
-                    for j in i:
-                        if not (j == "a" or j == "i" or j == "u" or j == "e" or j == "o" or j == "y"):
+            tmp = ""
+            for word in str1:
+                if word.isalpha():
+                    buff = word
+                    word = word.lower()
+                    check = 0
+                    for letter in word:
+                        cond = letter == "a" or letter == "i" or letter == "u" or \
+                               letter == "e" or letter == "o" or letter == "y"
+                        if not cond:
                             check += 1
-                        else:
-                            if check == 2 and len(i) > len(long):
-                                long = buff
-                            elif check == 3:
+                        if word.endswith(letter) or cond:
+                            if check >= 2 and (two_consonants[-1] != buff):
+                                two_consonants.append(buff)
+                            if check >= 3:
                                 three_consonants = buff
                                 flag = False
-                            check = 0
-
-            print("check(2) =", long if check == 0 else buff)
-            print("check(3) =", three_consonants if check == 0 else buff)
+                            if cond:
+                                check = 0
+            for i in two_consonants:
+                if len(tmp) < len(i):
+                    tmp = i
+            print("Самое длинное слово с двумя согласными подряд:", tmp)
+            print("Найдено слово с тремя согласными:", three_consonants + "\n")
