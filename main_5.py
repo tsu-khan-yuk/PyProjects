@@ -22,98 +22,112 @@
 #  "punctuation" : tuple уникальных знаков препинания
 #  }
 #####################################################################################################################
-switch = False
-
-
-def all_func():
-    global switch
-    return switch
 
 
 def tsk_1(tmp):
-    if tmp.isalnum():
-        try:
-            tmp = int(tmp)
-        except ValueError:
-            try :
-                tmp = float(tmp)
-            except ValueError:
-    else:
-        if tmp.startswith("(") and ("," in tmp) and tmp.endswith(")"):
-            print("Тип значения: tuple")
-        elif tmp.startswith("{") and tmp.endswith("}"):
-            tmp = tmp.split(",")
-            count = [i for i in tmp if ":" in i]
-            if len(count) == len(tmp):
-                print("Тип значения: dictionary\n")
-            else:
-                print("Тип значения: set\n")
-        else:
-            print("Тип значения: string\n")
-
-    if all_func():
-        tsk_2()
-
-
-def tsk_2():
-    print("-> task 2")
-    if all_func():
-        tsk_3()
+	if tmp.isalnum() or (tmp.startswith("-") and tmp[1:].isalnum()):
+		if "." in tmp:
+			print("Тип значения: float")
+		else:
+			print("Тип значения: int")
+	else:
+		if tmp.startswith("(") and ("," in tmp) and tmp.endswith(")"):
+			print("Тип значения: tuple")
+		elif tmp.startswith("{") and tmp.endswith("}"):
+			tmp = tmp.split(",")
+			count = 0
+			for i in tmp:
+				if ":" in tmp:
+					count += 1
+			if count == len(tmp):
+				print("Тип значения: dictionary\n")
+			else:
+				print("Тип значения: set\n")
+		elif tmp.startswith("[") and tmp.endswith("]"):
+			print("agv")
+		else:
+			print("Тип значения: string\n")
 
 
-def tsk_3():
-    print("-> task 3")
-    if all_func():
-        tsk_4()
+def tsk_2(val1, val2):
+	# Написать функцию, принимающую два аргумента.Если оба аргумента относятся к числовым типам - вернуть их
+	#  произведение, если к строкам - соединить в одну строку и вернуть, если первый строка, а второй нет - вернуть
+	#  словарь, в котором ключ - первый аргумент а значение - второй, в любом другом случае вернуть кортеж из аргументов
+	if (type(val1) == type(val2)) and isinstance(val1, (int, str)):
+		return val1 * val2 if type(val1) == int else val1 + val2
+	elif isinstance(val1, str) and not isinstance(val2, str):
+		return {val1: val2}
+	else:
+		return val1, val2
+
+
+def tsk_3(dct, begin, end):
+	# -> Дан словарь продавцов и цен на какой то товар у разных продавцов на hotline: { ‘citrus’: 47.999, ‘istudio’ 42.999,
+	#   ‘moyo’: 49.999, ‘royal-service’: 37.245, ‘buy.ua’: 38.324, ‘g-store’: 37.166, ‘ipartner’: 38.988, ‘sota’: 37.720 }.
+	#   Написать функцию возвращающую список имен продавцов, чьи цены попадают в определенный диапазон. Функция должна
+	#   принимать словарь, начало и конец диапазона и возвращать список имен.
+	if isinstance(dct, dict) and type(begin) is type(end) and isinstance(begin, (float, int)):
+		shop_list = []
+		for shop, price in dct.item():
+			if begin <= price <= end:
+				shop_list.append(shop)
 
 
 def tsk_4():
-    print("-> task 4")
-    if all_func():
-        switch = False
+	print("-> task 4")
 
 
-options = {"1", "2", "3", "4", "all", "quit"}
+options = { "1", "2", "3", "4", "all", "quit" }
 
 
 def task_ctrl(opt):
-    if opt in options:
-        return opt
-    else:
-        print("Не понимаю о чем вы, попробуйте еще раз)")
-        return None
+	if opt in options:
+		return opt
+	else:
+		print("Не понимаю о чем вы, попробуйте еще раз)")
+		return None
 
 
 tab = 20
 menu_cycle = 1
 while True:
-    print("~" * 30 + "{Итерация № %d}" % menu_cycle + "~" * 30)
-    print(" " * tab + "+--------------------------------+")
-    print(" " * tab + "|  Первое задание       |  1     |")
-    print(" " * tab + "|  Второе задание       |  2     |")
-    print(" " * tab + "|  Третье задание       |  3     |")
-    print(" " * tab + "|  Четвертое задание    |  4     |")
-    print(" " * tab + "|  Все по очереди       |  all   |")
-    print(" " * tab + "|  Завершение программы |  quit  |")
-    print(" " * tab + "+--------------------------------+")
-    task = task_ctrl(input(">>> Введите режим работы: "))
-    menu_cycle += 1
-
-    if task == "quit":
-        break
-    elif task is None:
-        continue
-    elif task == "all":
-        switch = True
-        print("-> task 1")
-        tsk_1(input(">>> Введите значение: "))
-        switch = False
-    elif task is "1":
-        print("\n-> task 1")
-        tsk_1(input(">>> Введите значение: "))
-    elif task is "2":
-        tsk_2()
-    elif task is "3":
-        tsk_3()
-    elif task is "4":
-        tsk_4()
+	print("~" * 30 + "{Итерация № %d}" % menu_cycle + "~" * 30)
+	print(" " * tab + "+--------------------------------+")
+	print(" " * tab + "|  Первое задание       |  1     |")
+	print(" " * tab + "|  Второе задание       |  2     |")
+	print(" " * tab + "|  Третье задание       |  3     |")
+	print(" " * tab + "|  Четвертое задание    |  4     |")
+	print(" " * tab + "|  Все по очереди       |  all   |")
+	print(" " * tab + "|  Завершение программы |  quit  |")
+	print(" " * tab + "+--------------------------------+")
+	task = task_ctrl(input(">>> Введите режим работы: "))
+	menu_cycle += 1
+	
+	if task == "quit":
+		break
+	elif task is None:
+		continue
+	elif task == "all":
+		
+		print("gav")
+	
+	elif task is "1":
+		
+		print("\n-> task 1")
+		tsk_1(input(">>> Введите значение: "))
+	
+	elif task is "2":
+		
+		print("-> task 2:")
+		ret = tsk_2(10.2, 13.42)
+		print(type(ret), ret)
+	
+	elif task is "3":
+		
+		print("-> task 3:")
+		tsk_3()
+	
+	elif task is "4":
+		
+		print("-> task 4:")
+		tsk_4()
