@@ -14,6 +14,7 @@
 # 	пользователю сколько попыток у него осталось. Если пользователь не смог угадать за отведенное количество попыток
 # 	сообщить ему об окончании (Looser!). Спросить у пользователя, хочет ли он повторить игру (Y/N). Если Y - повторить.
 #####################################################################################################################
+import lib
 options = {"1", "2", "3", "4", "all", "quit"}
 
 
@@ -44,19 +45,20 @@ while True:
         break
     if task is None:
         continue
-		
-	if task is "1":
-		message = ["Hello! >>> Позволите поприветствовать вас еще раз",
-				   "Не понимаю о чем вы( >>> Можете повторить ответ"]
-		message_index = 0
-		tmp = ""
-		while tmp.lower() != "n":
-			tmp = input(f"{message[message_index]}(Y/N)?: ")
-			if tmp.lower() == "y":
-				message_index = 0
-			else:
-				message_index = 1
-	if task is "2":
-	
-	if task is "3":
-	
+
+    if task is "1" or task == "all":
+
+        # task 1:
+        print("-> task 1:")
+        while lib.tsk_1():
+            print("Hello!")
+
+    if task is "2" or task == "all":
+
+        # task 2:
+        print("-> task 2:")
+
+    if task is "3" or task == "all":
+
+        # task 3:
+        print("-> task 3:")
