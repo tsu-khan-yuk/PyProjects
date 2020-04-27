@@ -1,6 +1,6 @@
 #####################################################################################################################
 # Выполнил: Иван Суханюк(Курс: Intro Python (07.04.2020))
-# Последние изменения: 25.04.2020
+# Последние изменения: 27.04.2020
 #  -> task 1: В отдельном файле (пусть будет lib.py) написать функцию, которая спрашивает пользователя Y\N и возваращает
 #  	True\False (можно использовать код из одного из предидущих заданий). В основном файле (пусть будет main.py)
 #  	попросить пользователя ввести с клавиатуры строку и вывести ее на экран. Используя импортированную из lib.py функцию
@@ -15,50 +15,91 @@
 # 	сообщить ему об окончании (Looser!). Спросить у пользователя, хочет ли он повторить игру (Y/N). Если Y - повторить.
 #####################################################################################################################
 import lib
-options = {"1", "2", "3", "4", "all", "quit"}
+from random import randint as rand
+
+
+def game_engine(begin: int, end: int, flag: bool) -> None:
+	"""Программа выбирает из диапазона чисел (1-100) случайное число и предлагает пользователю его
+ 	угадать. Если пользователь не угадал - предлагает пользователю угадать еще раз, пока он не угадает. Если угадал -
+ 	спрашивает хочет ли он повторить игру (Y/N). Если Y - повторить. N - Прекратить"""
+	print("Таак, выбираю число... Выбрал!")
+	rand_choice = rand(begin, end)
+	print("Теперь твоя очередь)")
+	print(rand_choice)
+	if flag is True:
+		count = asking_for_num(">>> С какой попытки угадаешь?:")
+		print("Договрились)")
+	while rand_choice != asking_for_num(">>> Введите число: "):
+		print("Ой-ой, мимо, попробуй еще раз!" + "" if flag is False else f"Осталось {count} попытки")
+	else:
+		print("Ооо, мои поздравления, ты выиграл)))")
+
+
+def asking_for_num(string: str) -> "int, list":
+	while True:
+		try:
+			_num = int(input(string))
+			break
+		except ValueError:
+			print("Ну мы же договорились(( Давай еще раз!")
+	return _num
+
+
+options = {"1", "2", "3", "all", "quit"}
 
 
 def task_ctrl(opt):
-    if opt in options:
-        return opt
-    else:
-        print("Не понимаю о чем вы, попробуйте еще раз)")
-        return None
+	if opt in options:
+		return opt
+	else:
+		print("Не понимаю о чем вы, попробуйте еще раз)")
+		return None
 
 
 tab = 20
 menu_cycle = 1
 while True:
-    print("~" * 30 + "{Итерация № %d}" % menu_cycle + "~" * 30)
-    print(" " * tab + "+--------------------------------+")
-    print(" " * tab + "|  Первое задание       |  1     |")
-    print(" " * tab + "|  Второе задание       |  2     |")
-    print(" " * tab + "|  Третье задание       |  3     |")
-    print(" " * tab + "|  Четвертое задание    |  4     |")
-    print(" " * tab + "|  Все по очереди       |  all   |")
-    print(" " * tab + "|  Завершение программы |  quit  |")
-    print(" " * tab + "+--------------------------------+")
-    task = task_ctrl(input(">>> Введите режим работы: "))
-    menu_cycle += 1
+	print("~" * 30 + "{Итерация № %d}" % menu_cycle + "~" * 30)
+	print(" " * tab + "+--------------------------------+")
+	print(" " * tab + "|  Первое задание       |  1     |")
+	print(" " * tab + "|  Второе задание       |  2     |")
+	print(" " * tab + "|  Третье задание       |  3     |")
+	print(" " * tab + "|  Все по очереди       |  all   |")
+	print(" " * tab + "|  Завершение программы |  quit  |")
+	print(" " * tab + "+--------------------------------+")
+	task = task_ctrl(input(">>> Введите режим работы: "))
+	menu_cycle += 1
 
-    if task == "quit":
-        break
-    if task is None:
-        continue
+	if task == "quit":
+		break
+	if task is None:
+		continue
 
-    if task is "1" or task == "all":
+	if task is "1" or task == "all":
 
-        # task 1:
-        print("-> task 1:")
-        while lib.tsk_1():
-            print("Hello!")
+		# task 1:
+		print("\n-> task 1:")
+		while lib.tsk_1():
+			print("Hello!")
+		if task is "1":
+			continue
 
-    if task is "2" or task == "all":
+	if task is "2" or task == "all":
 
-        # task 2:
-        print("-> task 2:")
+		# task 2:
+		print("\n-> task 2:")
+		print("Для простоты и красоты будем играться с целочисельными значениям)")
+		print("И так, начнем!")
+		answer = "y"
+		while answer != "n":
+			if answer != "y":
+				print("Не понимаю о чем вы(( Повторите пожалуйста")
+			else:
+				game_engine(0, 100, False)
+			answer = input(">>> Хотите еще раз(Y/N)?: ").lower()
+		else:
+			print("")
 
-    if task is "3" or task == "all":
-
-        # task 3:
-        print("-> task 3:")
+	if task is "3" or task == "all":
+		# task 3:
+		print("\n-> task 3:")
