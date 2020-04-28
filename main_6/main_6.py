@@ -14,14 +14,14 @@
 # 	пользователю сколько попыток у него осталось. Если пользователь не смог угадать за отведенное количество попыток
 # 	сообщить ему об окончании (Looser!). Спросить у пользователя, хочет ли он повторить игру (Y/N). Если Y - повторить.
 #####################################################################################################################
-import lib
+from lib import greetings
 from random import randint as rand
 
 
 def game_engine(begin: int, end: int, flag: bool) -> None:
 	"""Программа выбирает из диапазона чисел (1-100) случайное число и предлагает пользователю его
- 	угадать. Если пользователь не угадал - предлагает пользователю угадать еще раз, пока он не угадает. Если угадал -
- 	спрашивает хочет ли он повторить игру (Y/N). Если Y - повторить. N - Прекратить"""
+		угадать. Если пользователь не угадал - предлагает пользователю угадать еще раз, пока он не угадает. Если угадал -
+		спрашивает хочет ли он повторить игру (Y/N). Если Y - повторить. N - Прекратить"""
 	print("Таак, выбираю число... Выбрал!")
 	rand_choice = rand(begin, end)
 	print("Теперь твоя очередь)")
@@ -40,14 +40,31 @@ def game_engine(begin: int, end: int, flag: bool) -> None:
 		print("Ооо, мои поздравления, ты выиграл)))")
 
 
+def choose_level(level: bool) -> None:
+	print("Для простоты и красоты будем играться с целочисельными значениям)")
+	print("И так, начнем!")
+	answer = "y"
+	while answer != "n":
+		if answer != "y":
+			print("Не понимаю о чем вы(( Повторите пожалуйста")
+		else:
+			game_engine(0, 100, level)
+		answer = input(">>> Хотите еще раз(Y/N)?: ").lower()
+	else:
+		print("")
+
+
 def asking_for_num(string: str) -> "int, list":
+	"""Функция принимает строку и преобразовывает ее в цифру.
+		если встроке нету цифры, то программа переспрашивает до тех пор пока
+		пользователь не введет нужные двнные"""
 	while True:
 		try:
-			_num = int(input(string))
+			buff = int(input(string))
 			break
 		except ValueError:
 			print("Ну мы же договорились(( Давай еще раз!")
-	return _num
+	return buff
 
 
 options = {"1", "2", "3", "all", "quit"}
@@ -74,38 +91,32 @@ while True:
 	print(" " * tab + "+--------------------------------+")
 	task = task_ctrl(input(">>> Введите режим работы: "))
 	menu_cycle += 1
-
+	
 	if task == "quit":
 		break
 	if task is None:
 		continue
-
+	
 	if task is "1" or task == "all":
-
+		
 		# task 1:
 		print("\n-> task 1:")
-		while lib.tsk_1():
-			print("Hello!")
+		while True:
+			str1 = input(">>> Введитте строку: ")
+			print(str1)
+			if not greetings():
+				break
 		if task is "1":
 			continue
-
-	if task is "2" or task == "all":
-
+	
+	if task is "2" or task is "3" or task == "all":
+		
 		# task 2:
 		print("\n-> task 2:")
-		print("Для простоты и красоты будем играться с целочисельными значениям)")
-		print("И так, начнем!")
-		answer = "y"
-		while answer != "n":
-			if answer != "y":
-				print("Не понимаю о чем вы(( Повторите пожалуйста")
-			else:
-				game_engine(0, 100, False)
-			answer = input(">>> Хотите еще раз(Y/N)?: ").lower()
-		else:
-			print("")
-
+		choose_level(False)
+	
 	if task is "3" or task == "all":
+		
 		# task 3:
 		print("\n-> task 3:")
-		game_engine(0, 100, True)
+		choose_level(True)
