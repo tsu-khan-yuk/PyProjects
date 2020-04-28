@@ -26,11 +26,16 @@ def game_engine(begin: int, end: int, flag: bool) -> None:
 	rand_choice = rand(begin, end)
 	print("Теперь твоя очередь)")
 	print(rand_choice)
+	count = None
 	if flag is True:
 		count = asking_for_num(">>> С какой попытки угадаешь?:")
 		print("Договрились)")
-	while rand_choice != asking_for_num(">>> Введите число: "):
-		print("Ой-ой, мимо, попробуй еще раз!" + "" if flag is False else f"Осталось {count} попытки")
+	while count and rand_choice != asking_for_num(">>> Введите число: "):
+		print("Ой-ой, мимо, попробуй еще раз!")
+		count -= 1
+		print(f"У тебя осталось: {count} попыток")
+	while count is None and rand_choice != asking_for_num(">>> Введите число: "):
+		print("Ой-ой, мимо, попробуй еще раз!")
 	else:
 		print("Ооо, мои поздравления, ты выиграл)))")
 
@@ -103,3 +108,4 @@ while True:
 	if task is "3" or task == "all":
 		# task 3:
 		print("\n-> task 3:")
+		game_engine(0, 100, True)
