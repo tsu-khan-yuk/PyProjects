@@ -20,32 +20,33 @@ from random import randint as rand
 
 def game_engine(begin: int, end: int, flag: bool) -> None:
 	"""Программа выбирает из диапазона чисел (1-100) случайное число и предлагает пользователю его
-		угадать. Если пользователь не угадал - предлагает пользователю угадать еще раз, пока он не угадает. Если угадал -
-		спрашивает хочет ли он повторить игру (Y/N). Если Y - повторить. N - Прекратить"""
+		угадать. Если пользователь не угадал - предлагает пользователю угадать еще раз, пока он не угадает.
+		Если угадал - спрашивает хочет ли он повторить игру (Y/N). Если Y - повторить. N - Прекратить"""
+	if begin > end:
+		begin, end = end, begin
 	print("Таак, выбираю число... Выбрал!")
 	rand_choice = rand(begin, end)
 	print(f"Теперь твоя очередь) [{rand_choice}]")
-	count = None
-	if flag is True:
-		# Если в функцию передали как третий параметр True,
-		# То функция работает как третье задание
-		count = asking_for_num(">>> С какой попытки угадаешь?: ")
-		print("Договрились)")
-	while count > 0 and rand_choice != asking_for_num(">>> Введите число: "):
-		# Сюда заходит программа, если count != None,
-		# То есть функция работает как третье задание
-		print("Ой-ой, мимо, попробуй еще раз!")
-		count -= 1
-		print(f"У тебя осталось: {count} попыток")
-		if count is 0:
-			print("А это значит, что игра окончена и в мою пользу)")
-			return
-	while count is None and rand_choice != asking_for_num(">>> Введите число: "):
-		# Сюда заходит программа, если условие с count в прошлом коментарии не соблюдено
-		# То есть функция работает как второе задание
-		print("Ой-ой, мимо, попробуй еще раз!")
+	count = -1
+	if flag:
+		while True:
+			count = asking_for_num(">>> С какой попытки угадаешь?: ")
+			if count > 0:
+				print("Договрились)")
+				break
+			print("Ой-ой, странное значение, давай как еще раз")
+	while rand_choice != asking_for_num(">>> Введите число: "):
+		if count < 0:
+			print("Ой-ой, мимо, попробуй еще раз!")
+		else:
+			print("Ой-ой, мимо, попробуй еще раз!")
+			count -= 1
+			print(f"У тебя осталось: {count} попыток")
+			if count is 0:
+				print("А это значит, что игра окончена и в мою пользу)")
+				return
 	else:
-		print("Ооо, мои поздравления, ты выиграл)))" if count is None else "Хмм, странное значение какое-то")
+		print("Ооо, мои поздравления, ты выиграл)))")
 
 
 def choose_level(level: bool) -> None:
@@ -54,20 +55,23 @@ def choose_level(level: bool) -> None:
 		- если level is False, то функция будет работать как третье задание"""
 	print("Для простоты и красоты будем играться с целочисельными значениям)")
 	print("И так, начнем!")
-	_begin = 0 if not level else asking_for_num(">>> Введите начало диапозона: ")
-	_end = 100 if not level else asking_for_num(">>> Введите начало диапозона: ")
 	answer = "y"
 	while answer != "n":
 		if answer != "y":
 			print("Не понимаю о чем вы(( Повторите пожалуйста")
 		else:
+			_begin = 0 if not level else asking_for_num(">>> Введите начало диапозона: ")
+			_end = 100 if not level else asking_for_num(">>> Введите начало диапозона: ")
+			if _begin == _end:
+				print("Ну разве это интересно) Давай другой диапазон")
+				continue
 			game_engine(_begin, _end, level)
 		answer = input(">>> Хотите еще раз(Y/N)?: ").lower()
 	else:
 		print("")
 
 
-def asking_for_num(string: str) -> "int, list":
+def asking_for_num(string: str) -> int:
 	"""Функция принимает строку и преобразовывает ее в цифру.
 		если встроке нету цифры, то программа переспрашивает до тех пор пока
 		пользователь не введет нужные двнные"""
