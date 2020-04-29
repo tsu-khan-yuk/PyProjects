@@ -36,17 +36,15 @@ def game_engine(begin: int, end: int, flag: bool) -> None:
 				break
 			print("Ой-ой, странное значение, давай как еще раз")
 	while rand_choice != asking_for_num(">>> Введите число: "):
-		if count < 0:
-			print("Ой-ой, мимо, попробуй еще раз!")
-		else:
-			print("Ой-ой, мимо, попробуй еще раз!")
+		print("Ой-ой, мимо, попробуй еще раз!")
+		if count > 0:
 			count -= 1
 			print(f"У тебя осталось: {count} попыток")
 			if count is 0:
 				print("А это значит, что игра окончена и в мою пользу)")
 				return
 	else:
-		print("Ооо, мои поздравления, ты выиграл)))") #
+		print("Ооо, мои поздравления, ты выиграл)))")
 
 
 def choose_level(level: bool) -> None:
