@@ -24,31 +24,44 @@ def game_engine(begin: int, end: int, flag: bool) -> None:
 		спрашивает хочет ли он повторить игру (Y/N). Если Y - повторить. N - Прекратить"""
 	print("Таак, выбираю число... Выбрал!")
 	rand_choice = rand(begin, end)
-	print("Теперь твоя очередь)")
-	print(rand_choice)
+	print(f"Теперь твоя очередь) [{rand_choice}]")
 	count = None
 	if flag is True:
-		count = asking_for_num(">>> С какой попытки угадаешь?:")
+		# Если в функцию передали как третий параметр True,
+		# То функция работает как третье задание
+		count = asking_for_num(">>> С какой попытки угадаешь?: ")
 		print("Договрились)")
-	while count and rand_choice != asking_for_num(">>> Введите число: "):
+	while count > 0 and rand_choice != asking_for_num(">>> Введите число: "):
+		# Сюда заходит программа, если count != None,
+		# То есть функция работает как третье задание
 		print("Ой-ой, мимо, попробуй еще раз!")
 		count -= 1
 		print(f"У тебя осталось: {count} попыток")
+		if count is 0:
+			print("А это значит, что игра окончена и в мою пользу)")
+			return
 	while count is None and rand_choice != asking_for_num(">>> Введите число: "):
+		# Сюда заходит программа, если условие с count в прошлом коментарии не соблюдено
+		# То есть функция работает как второе задание
 		print("Ой-ой, мимо, попробуй еще раз!")
 	else:
-		print("Ооо, мои поздравления, ты выиграл)))")
+		print("Ооо, мои поздравления, ты выиграл)))" if count is None else "Хмм, странное значение какое-то")
 
 
 def choose_level(level: bool) -> None:
+	"""Функция для организации переспрашивания пользвателя.
+		- если level is True, то функция будет работать как второе задание
+		- если level is False, то функция будет работать как третье задание"""
 	print("Для простоты и красоты будем играться с целочисельными значениям)")
 	print("И так, начнем!")
+	_begin = 0 if not level else asking_for_num(">>> Введите начало диапозона: ")
+	_end = 100 if not level else asking_for_num(">>> Введите начало диапозона: ")
 	answer = "y"
 	while answer != "n":
 		if answer != "y":
 			print("Не понимаю о чем вы(( Повторите пожалуйста")
 		else:
-			game_engine(0, 100, level)
+			game_engine(_begin, _end, level)
 		answer = input(">>> Хотите еще раз(Y/N)?: ").lower()
 	else:
 		print("")
@@ -103,13 +116,13 @@ while True:
 		print("\n-> task 1:")
 		while True:
 			str1 = input(">>> Введитте строку: ")
-			print(str1)
+			print("Ваша строка: ", str1)
 			if not greetings():
 				break
 		if task is "1":
 			continue
 	
-	if task is "2" or task is "3" or task == "all":
+	if task is "2" or task == "all":
 		
 		# task 2:
 		print("\n-> task 2:")
