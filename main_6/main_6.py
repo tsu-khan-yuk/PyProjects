@@ -46,7 +46,7 @@ def game_engine(begin: int, end: int, flag: bool) -> None:
 				print("А это значит, что игра окончена и в мою пользу)")
 				return
 	else:
-		print("Ооо, мои поздравления, ты выиграл)))")
+		print("Ооо, мои поздравления, ты выиграл)))") #
 
 
 def choose_level(level: bool) -> None:
