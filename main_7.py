@@ -38,4 +38,96 @@ obj.get_info()
 obj.get_voice()
 
 
-class Рousehold_appliances
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ======================================================================================================================
+
+class HouseholdAppliances:
+	target = None
+
+	def __init__(self, target=None):
+		self.target = target if isinstance(target, str) else None
+
+	def using(self):
+		pass
+
+
+# ======================================================================================================================
+
+class Iron(HouseholdAppliances):
+
+	def __init__(self, target=None):
+		super().__init__(target)
+
+	def using(self):
+		print(f"Ironing {self.target}")
+
+
+class WashingMachine(HouseholdAppliances):
+
+	def __init__(self, target=None):
+		super().__init__(target)
+
+	def using(self):
+		print(f"Washing {self.target}")
+
+
+class KitchenEquipment(HouseholdAppliances):
+
+	def __init__(self, target=None):
+		super().__init__(target)
+
+	def using(self):
+		pass
+
+
+# ======================================================================================================================
+
+class Bake(KitchenEquipment):
+	burner_amount = None
+
+	def __init__(self, target=None, burner=None):
+		super().__init__(target)
+		self.burner_amount = burner if isinstance(burner, str) else None
+
+	def using(self):
+		print(f"Baking {self.target}")
+
+
+class Harvester(KitchenEquipment):
+
+	def __init__(self, target=None):
+		super().__init__(target)
+
+	def using(self):
+		print(f"Mows {self.target}")
+
+
+# ======================================================================================================================
+
+class ElectricBake(Bake):
+
+	def __init__(self, target=None, burner=None):
+		super().__init__(target, burner)
+
+	def using(self):
+		print(f"Baking(on eletricity) {self.target}")
+
+
+class GasBake(Bake):
+
+	def __init__(self, target=None, burner=None):
+		super().__init__(target, burner)
+
+	def using(self):
+		print(f"Baking(on gas) {self.target}")
+
+
+class Microwave(Bake):
+
+	def __init__(self, target=None):
+		super().__init__(target)
+
+	def using(self):
+		print(f"Baking(with microwave) {self.target}")
+
+# ======================================================================================================================
