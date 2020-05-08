@@ -18,85 +18,90 @@ import time
 
 
 class Dot:
-	_x = None
-	_y = None
+    _x = None
+    _y = None
 
-	def __init__(self, x=None, y=None):
-		if isinstance(x, (int, float)) and isinstance(y, (int, float)):
-			self._x = x
-			self._y = y
-		elif x is None or y is None:
-			raise Exception("Expected 2 arguments")
-		else:
-			raise Exception("Expected float or int type arguments")
+    def __init__(self, x=None, y=None):
+        if isinstance(x, (int, float)) and isinstance(y, (int, float)):
+            self._x = x
+            self._y = y
+        elif x is None or y is None:
+            raise Exception("Expected 2 arguments")
+        else:
+            raise Exception("Expected float or int type arguments")
 
-	@property
-	def x(self):
-		return self._x
+    @property
+    def x(self):
+        return self._x
 
-	@property
-	def y(self):
-		return self._y
+    @property
+    def y(self):
+        return self._y
 
-	@property
-	def coord(self):
-		return self._x, self._y
+    @property
+    def coord(self):
+        return self._x, self._y
 
-	def __str__(self):
-		return f"(x: {self._x}, y: {self._y})"
+    def __str__(self):
+        return f"(x: {self._x}, y: {self._y})"
 
 
 class Line:
-	begin_dot = None
-	end_dot = None
+    begin_dot = None
+    end_dot = None
 
-	def __init__(self, begin=None, end=None):
-		if isinstance(begin, Dot) and isinstance(begin, Dot):
-			if not begin.coord == end.coord:
-				self.begin_dot = begin
-				self.end_dot = end
-			else:
-				raise Exception("Expected non-simular dots")
-		else:
-			raise Exception("Expected Dot type arguments")
+    def __init__(self, begin=None, end=None):
+        if isinstance(begin, Dot) and isinstance(begin, Dot):
+            if not begin.coord == end.coord:
+                self.begin_dot = begin
+                self.end_dot = end
+            else:
+                raise Exception("Expected non-simular dots")
+        else:
+            raise Exception("Expected Dot type arguments")
 
-	@property
-	def length(self):
-		return ((self.begin_dot.x - self.end_dot.x) ** 2 + (self.begin_dot.y - self.end_dot.y) ** 2) ** 0.5
+    @property
+    def begin(self):
+        return self.begin_dot
 
-	def __str__(self):
-		return f'Line with points {self.begin_dot} {self.end_dot} and length {self.length}'
+    @property
+    def end(self):
+        return self.end_dot
+
+    @property
+    def length(self):
+        return ((self.begin_dot.x - self.end_dot.x) ** 2 + (self.begin_dot.y - self.end_dot.y) ** 2) ** 0.5
+
+    def __str__(self):
+        return f'Line with points {self.begin_dot} {self.end_dot} and length {self.length}'
 
 
 def time_decor(func):
+    def wrapper(*args, **kwargs):
+        start_time = datetime.now()
+        val = func(*args, **kwargs)
+        return str(datetime.now() - start_time), val
 
-	def wrapper(*args, **kwargs):
-		start_time = datetime.now()
-		val = func(*args, **kwargs)
-		return str(datetime.now() - start_time), val
-
-	return wrapper
+    return wrapper
 
 
 @time_decor
 def func_(sec) -> int:
-	"""Функция принимает один аргумент в качестве времени,
-	    что примерно должна проработать. Возвращает время,
-	    которое примерно функция должна была проработать."""
-	print("\t\tbefore sleep")
-	for i in range(0, sec):
-		time.sleep(1)
-		print(f"\t\twait for {sec - i} secs")
-	print("\t\tend of sleep")
-	return sec
+    """Функция принимает один аргумент в качестве времени,
+		что примерно должна проработать. Возвращает время,
+		которое примерно функция должна была проработать."""
+    print("\t\tbefore sleep")
+    for i in range(0, sec):
+        time.sleep(1)
+        print(f"\t\twait for {sec - i} secs")
+    print("\t\tend of sleep")
+    return sec
 
 
 if __name__ == "__main__":
-	print(f"\n -> task 1: Возвращаемая строка обьектом Dot: {Dot(10, 20)}")
-	print(f" -> task 2: Возвращаемая строка обьектом Line: {Line(Dot(10, 20), Dot(20, 10))}")
-	print(" -> task 3 and 4:\n\tfunction outut {")
-	tpl = func_(5)
-	print("\t}")
-	print(f"Возвращаемое значаение {tpl[1]}, время работы функции {tpl[0]}")
-
-
+    print(f"\n -> task 1: Возвращаемая строка обьектом Dot: {Dot(10, 20)}")
+    print(f" -> task 2: Возвращаемая строка обьектом Line: {Line(Dot(10, 20), Dot(20, 10))}")
+    print(" -> task 3 and 4:\n\tfunction outut {")
+    tpl = func_(5)
+    print("\t}")
+    print(f"Возвращаемое значаение {tpl[1]}, время работы функции {tpl[0]}")
