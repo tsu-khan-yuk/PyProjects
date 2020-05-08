@@ -1,6 +1,6 @@
 #######################################################################################################################
 # Выполнил: Иван Суханюк(Курс: Intro Python (07.04.2020))
-# Последние изменения: 05.05.2020
+# Последние изменения: 08.05.2020
 #  -> task 1: Модифицируйте класс Dot следующим образом:
 #   - обеспечьте проверку значений координат (только числа)
 #   - добавьте метод __str__, который бы отдавал информацию о точке в фрмате "x: 10, y: 20"
@@ -31,15 +31,15 @@ class Dot:
             raise Exception("Expected float or int type arguments")
 
     @property
-    def x(self):
+    def x(self) -> "int, float":
         return self._x
 
     @property
-    def y(self):
+    def y(self) -> "int, float":
         return self._y
 
     @property
-    def coord(self):
+    def coord(self) -> tuple:
         return self._x, self._y
 
     def __str__(self):
@@ -61,15 +61,15 @@ class Line:
             raise Exception("Expected Dot type arguments")
 
     @property
-    def begin(self):
+    def begin(self) -> Dot:
         return self.begin_dot
 
     @property
-    def end(self):
+    def end(self) -> Dot:
         return self.end_dot
 
     @property
-    def length(self):
+    def length(self) -> float:
         return ((self.begin_dot.x - self.end_dot.x) ** 2 + (self.begin_dot.y - self.end_dot.y) ** 2) ** 0.5
 
     def __str__(self):
@@ -87,9 +87,8 @@ def time_decor(func):
 
 @time_decor
 def func_(sec) -> int:
-    """Функция принимает один аргумент в качестве времени,
-		что примерно должна проработать. Возвращает время,
-		которое примерно функция должна была проработать."""
+    """Функция принимает один аргумент в качестве секунд,
+        что примерно должна проработать. Возвращает этот же аргумент"""
     print("\t\tbefore sleep")
     for i in range(0, sec):
         time.sleep(1)
