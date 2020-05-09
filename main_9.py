@@ -14,7 +14,7 @@ from Module1 import Mage
 
 mag = Mage("Gav", 100, 100)
 
-mag.set_health(10)
+mag.set_name(10)
 
 
 

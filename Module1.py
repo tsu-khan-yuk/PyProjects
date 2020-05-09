@@ -22,9 +22,8 @@ class Unit(ABC):
     def __setattr__(self, key, value):
         if key == "_health" and value < self._health:
             self.__dict__[key] = value
-            print("gav", self._health)
-        else:
-            print("NOOOO", self._health)
+        elif key == "_dmg" and value >= 0:
+            self.__dict__[key] = value
 
 
 class Mage(Unit):
@@ -42,8 +41,10 @@ class Mage(Unit):
         # modify self._defence here
         return self._defence
 
-    def set_health(self, val):
-        self._health -= val
+    def set_name(self, val):
+        print(self._name)
+        self._name = val
+        print(self._name)
 
     def attack(self, enemy):
         if not isinstance(enemy, Unit):
