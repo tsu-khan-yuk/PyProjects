@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 
 
 class Unit(ABC):
+    """Допишите класс Unit: добавьте проверку на здоровье
+        таким образом, чтобы здоровье нельзя было установить < 0"""
     _name = None
     _health = 100
     _dmg = 1
@@ -20,9 +22,14 @@ class Unit(ABC):
         pass
 
     def __setattr__(self, key, value):
-        if key == "_health" and value < self._health:
+        # todo: проверить наличие видеолекции и проверить то ли это!!!
+        if key == "_health" and (self._health - value) >= 0:
             self.__dict__[key] = value
-        elif key == "_dmg" and value >= 0:
+        elif key == "_dmg" and value > 0:
+            self.__dict__[key] = value
+        elif key == "_defence" and value >= 0:
+            self.__dict__[key] = value
+        elif key == "_name" and isinstance(value, str):
             self.__dict__[key] = value
 
 
@@ -54,4 +61,26 @@ class Mage(Unit):
         _defence = enemy._get_defence()
 
         enemy._health -= _defence - _dmg
+
+
+class Knight(Unit):
+    """Напишите класс Knight. Реализуйте расчет значения урона
+        для атаки и значения заблокированного урона для защиты.
+        Добавьте в атаку рыцаря игнорирование половины защиты врага."""
+    def __init__(self, name, dmg, defence):
+        self._name = name
+        self._dmg = dmg
+        self._defence = defence
+
+    def attack(self, enemy):
+        pass
+
+    def _get_defence(self):
+        pass
+
+    def _get_dmg(self):
+        pass
+
+
+
 
