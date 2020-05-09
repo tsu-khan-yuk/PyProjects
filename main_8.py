@@ -1,6 +1,6 @@
 #######################################################################################################################
 # Выполнил: Иван Суханюк(Курс: Intro Python (07.04.2020))
-# Последние изменения: 08.05.2020
+# Последние изменения: 09.05.2020
 #  -> task 1: Модифицируйте класс Dot следующим образом:
 #   - обеспечьте проверку значений координат (только числа)
 #   - добавьте метод __str__, который бы отдавал информацию о точке в фрмате "x: 10, y: 20"
@@ -21,12 +21,10 @@ class Dot:
     _x = None
     _y = None
 
-    def __init__(self, x=None, y=None):
+    def __init__(self, x, y):
         if isinstance(x, (int, float)) and isinstance(y, (int, float)):
             self._x = x
             self._y = y
-        elif x is None or y is None:
-            raise Exception("Expected 2 arguments")
         else:
             raise Exception("Expected float or int type arguments")
 
@@ -50,9 +48,9 @@ class Line:
     begin_dot = None
     end_dot = None
 
-    def __init__(self, begin=None, end=None):
+    def __init__(self, begin, end):
         if isinstance(begin, Dot) and isinstance(begin, Dot):
-            if not begin.coord == end.coord:
+            if begin.coord != end.coord:
                 self.begin_dot = begin
                 self.end_dot = end
             else:
@@ -104,3 +102,4 @@ if __name__ == "__main__":
     tpl = func_(5)
     print("\t}")
     print(f"Возвращаемое значаение {tpl[1]}, время работы функции {tpl[0]}")
+    dot3 = Dot()
