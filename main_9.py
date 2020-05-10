@@ -12,8 +12,6 @@
 ######################################################################################################################
 from PyProjects.Module1 import Mage, Pocket, Item
 
-mag = Mage("Gav", 100, 100)
-
 example = {
     "brace": {
         "health": 100,
@@ -33,13 +31,14 @@ example = {
 }
 
 
-loot = Pocket()
-loot.push_item(Item("gas", 100, 20, 30))
-loot.push_item(Item("gav", 20, 30, 60))
-loot.push_item(Item("helmet", 20, 30, 80))
-print(loot)
+# loot = Pocket()
+# loot.push_item(Item("gas", 100, 20, 30))
+# loot.push_item(Item("gav", 20, 30, 60))
+# loot.push_item(Item("helmet", 20, 30, 80))
+# print(loot)
 
-
+mag = Mage("Gav", 100, 100)
+print(mag)
 
 
 

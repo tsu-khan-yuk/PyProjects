@@ -37,7 +37,7 @@ class Pocket:
             self._boost_dictionary.update({item.name: item.base})
 
     def param_sum(self, param: str):
-        if param in ("health", "defence", "dmg"):
+        if isinstance(param, str) and param in ("health", "defence", "dmg"):
             res = 0.0
             for i in self._boost_dictionary:
                 res += i[param]
@@ -66,7 +66,6 @@ class Unit(ABC):
 
     @abstractmethod
     def _get_dmg(self):
-        # todo: нужно посчитать весь дмг в кармане
         pass
 
     @abstractmethod
@@ -94,11 +93,12 @@ class Mage(Unit):
         self._defence = defence
 
     def _get_dmg(self):
+        # todo: нужно посчитать весь дмг в кармане
         # modify self._dmg here
-        dmg_sum = self._dmg
-        for i in self._amplifiers.values():
-            i["dmg"]
-        return dmg_sum
+
+    def take_item(self, item):
+        if isinstance(item, Item):
+            self._amplifiers.push_item(item)
 
     def _get_defence(self):
         # modify self._defence here
@@ -117,6 +117,15 @@ class Mage(Unit):
         _defence = enemy._get_defence()
 
         enemy._health -= _defence - _dmg
+
+    def __str__(self):
+        string = "+------------------+\n"
+        string += f"| name: {self._name}\n"
+        string += f"| healt: {self._health}\n"
+        string += f"| defence: {self._defence}\n"
+        string += f"| dmg: {self._dmg}\n"
+        string += "+------------------+"
+        return string
 
 
 class Knight(Unit):
