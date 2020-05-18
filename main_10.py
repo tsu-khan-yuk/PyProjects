@@ -14,23 +14,24 @@
 # 	учитывалась при выполнении атаки (при уклонении от атаки урон не наносится).
 #  	Также можно использовать итератор\генератор
 ######################################################################################################################
-from PyProjects.Modules.Item import Item
-from PyProjects.Modules.Mage import Mage
-from PyProjects.Modules.Knight import Knight
-
-sword1 = Item("sword", dmg=150)
-sword2 = Item("sword", attachment="Mage", dmg=100)
-sword3 = Item("sword", attachment="Knight", dmg=50)
-
-mag = Mage("Vasya")
-kn = Knight("Peter")
-
-mag.take_item(sword1)
-
-print(mag)
+from PyProjects.Modules.Unit import Unit, check_type
 
 
+class B:
+	x = None
+	y = None
+	
+	@check_type(True, int, int)
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+	
+	def get_coord(self):
+		return self.x, self.y
 
+
+b = B(10, 20)
+print(b.get_coord())
 
 
 

@@ -1,4 +1,4 @@
-from PyProjects.Modules.Unit import Unit
+from PyProjects.Modules.Unit import Unit, check_type
 from PyProjects.Modules.Pocket import Pocket
 from PyProjects.Modules.Item import Item
 
@@ -13,20 +13,23 @@ class Knight(Unit):
             self._amplifiers = Pocket()
             self._name = name
 
+    @check_type(True, Unit)
     def attack(self, enemy) -> None:
         # # Если правильно понял, то игнорируеться половина защиты врага.
         # # 	Если домаг больше половины защиты, то цепляет здоровье, но не защиту.
         # # 	Если домаг меньше половины защиты, то цепляет только защиту
-        if not isinstance(enemy, Unit):
-            raise Exception(f"{self._name} не может атаковать {type(enemy)}(")
+        # if not isinstance(enemy, Unit):
+        #     raise Exception(f"{self._name} не может атаковать {type(enemy)}(")
         half_enemy_defence = enemy._defence // 2
+        # todo: add "power_up" instead self._dmg
         if self._dmg > half_enemy_defence:
             enemy._health -= self._dmg - half_enemy_defence
             enemy._defence = half_enemy_defence
         else:
             enemy._defence -= self._dmg
 
-    def take_item(self, item):
+    @check_type()
+    def take_item(self, item) -> None:
         """Подобрать предмет и положить в сумку"""
         if isinstance(item, Item):
             if item.attach in {"Knight", "Unit"}:

@@ -24,7 +24,7 @@ class Item:
 		return self._name
 	
 	@property
-	def attach(self):
+	def attach(self) -> str:
 		return self._attachment
 	
 	@property
