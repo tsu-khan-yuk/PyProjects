@@ -1,14 +1,15 @@
-from PyProjects.Modules.Unit import Unit, check_type
+from PyProjects.Modules.Unit import Unit
+from PyProjects.Modules.Checker import check_type
 from PyProjects.Modules.Pocket import Pocket
 from PyProjects.Modules.Item import Item
 
 
 class Mage(Unit):
 
+    @check_type(True, str)
     def __init__(self, name):
-        if isinstance(name, str):
-            self._amplifiers = Pocket()
-            self._name = name
+        self._amplifiers = Pocket()
+        self._name = name
 
     @check_type(True, Item)
     def take_item(self, item) -> None:
@@ -28,11 +29,8 @@ class Mage(Unit):
 
     @check_type(True, Unit)
     def attack(self, enemy) -> None:
-        if not isinstance(enemy, Unit):
-            raise Exception(f"{self._name} не может атаковать {type(enemy)}(")
         real_vitality = enemy._defence + enemy._health
-        # todo: add "power_up" instead self._dmg
-        real_vitality -= self._dmg
+        real_vitality -= Unit.power_up(self._dmg)
 
         if real_vitality < enemy._health:
             enemy._health = real_vitality

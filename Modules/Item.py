@@ -1,3 +1,6 @@
+from PyProjects.Modules.Checker import check_type
+
+
 class Item:
 	"""Класс отвечает за вещь(усилитель), который можно будет
 	сложить в обьект Pocket"""
@@ -5,7 +8,7 @@ class Item:
 	_base = None
 	_attachment = None
 	_check_att = {"Unit", "Mage", "Knight"}
-	
+
 	def __init__(self, name="unknown", attachment="Unit", defence=0, dmg=0):
 		"""Создает предмет, которй может повысить домаг и/или защиту"""
 		if isinstance(name, str) and isinstance(defence, (int, float)) and isinstance(dmg, (int, float)) \

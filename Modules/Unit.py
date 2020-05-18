@@ -1,30 +1,7 @@
 from abc import ABC, abstractmethod
 from PyProjects.Modules.Pocket import Pocket
 from random import randint
-
-
-# todo: добваить метод который будет вычилсять веротность
-#  атаки с двойным уроном  //
-# todo: Дописать везде декоратор для проверки типов
-
-def check_type(*types):
-	def decor(func):
-		def wrapper(*args):
-			if types[0] is True:
-				types_list = list(types[1:])
-				args_list = list(args[1:])
-			else:
-				types_list = list(types[:])
-				args_list = list(args[:])
-			if len(types_list) != len(args_list):
-				raise TypeError("Check decor parameters")
-			mas = dict(map(lambda *x: x, types_list, args_list))
-			for arg in mas.items():
-				if not isinstance(arg[1], arg[0]):
-					raise TypeError
-			return func(*args)
-		return wrapper
-	return decor
+from PyProjects.Modules.Checker import check_type
 
 
 class Unit(ABC):
@@ -51,7 +28,7 @@ class Unit(ABC):
 		"""Генератор, который возвращает процент вероятности от 0 до 100"""
 		while True:
 			yield randint(0, 100)
-	
+
 	@staticmethod
 	@check_type(int)
 	def power_up(dmg: int) -> int:
@@ -59,9 +36,9 @@ class Unit(ABC):
 			или полное значение(если генератор вернул >75)"""
 		func = Unit.luck_generator()
 		if next(func) > 75:
-			return dmg
+			return 2*dmg
 		else:
-			return 0
+			return dmg
 	
 	def __setattr__(self, key, value):
 		if key == "_health":

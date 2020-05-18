@@ -1,4 +1,5 @@
-from PyProjects.Modules.Unit import Unit, check_type
+from PyProjects.Modules.Unit import Unit
+from PyProjects.Modules.Checker import check_type
 from PyProjects.Modules.Pocket import Pocket
 from PyProjects.Modules.Item import Item
 
@@ -8,36 +9,30 @@ class Knight(Unit):
     для атаки и значения заблокированного урона для защиты.
     Добавьте в атаку рыцаря игнорирование половины защиты врага."""
 
+    @check_type(True, str)
     def __init__(self, name):
-        if isinstance(name, str):
-            self._amplifiers = Pocket()
-            self._name = name
+        self._amplifiers = Pocket()
+        self._name = name
 
     @check_type(True, Unit)
     def attack(self, enemy) -> None:
-        # # Если правильно понял, то игнорируеться половина защиты врага.
-        # # 	Если домаг больше половины защиты, то цепляет здоровье, но не защиту.
-        # # 	Если домаг меньше половины защиты, то цепляет только защиту
-        # if not isinstance(enemy, Unit):
-        #     raise Exception(f"{self._name} не может атаковать {type(enemy)}(")
         half_enemy_defence = enemy._defence // 2
-        # todo: add "power_up" instead self._dmg
-        if self._dmg > half_enemy_defence:
-            enemy._health -= self._dmg - half_enemy_defence
+        real_dmg = Unit.power_up(self._dmg)
+        if real_dmg > half_enemy_defence:
+            enemy._health -= real_dmg - half_enemy_defence
             enemy._defence = half_enemy_defence
         else:
-            enemy._defence -= self._dmg
+            enemy._defence -= real_dmg
 
-    @check_type()
+    @check_type(True, Item)
     def take_item(self, item) -> None:
         """Подобрать предмет и положить в сумку"""
-        if isinstance(item, Item):
-            if item.attach in {"Knight", "Unit"}:
-                self._amplifiers.push_item(item)
-                self._defence = self._get_defence()
-                self._dmg = self._get_dmg()
-            else:
-                raise Exception(f"{self._name} can`t take {item.name}")
+        if item.attach in {"Knight", "Unit"}:
+            self._amplifiers.push_item(item)
+            self._defence = self._get_defence()
+            self._dmg = self._get_dmg()
+        else:
+            raise Exception(f"{self._name} can`t take {item.name}")
 
     def _get_defence(self) -> int:
         return self._defence + self._amplifiers.param_sum("defence")
