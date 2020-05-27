@@ -11,13 +11,12 @@
 #######################################################################################################################
 from re import *
 
-
 # AА1234BB, 12 123-45AB, a12345BC
 # r"[A-Z]{2}[0-9]{4}[A-Z]{2}", r"[1-9]{2}\s[0-9]{3}-[0-9]{2}[A-Z]{2}", r"[a-z][0-9]{5}[A-Z]{2}"
 base = [
-    compile(r"[A-Z|А-Я]{2}[0-9]{4}[A-Z|А-Я]{2}"),               # AА1234BB
-    compile(r"[1-9]{2}\s[0-9]{3}-[0-9]{2}[A-Z|А-Я]{2}"),    # 12 123-45AB
-    compile(r"[a-z|а-я][0-9]{5}[A-Z|А-Я]{2}")                   # a12345BC
+    compile(r"[A-Z|А-Я]{2}[0-9]{4}[A-Z|А-Я]{2}"),  # AА1234BB
+    compile(r"[1-9]{2}\s[0-9]{3}-[0-9]{2}[A-Z|А-Я]{2}"),  # 12 123-45AB
+    compile(r"[a-z|а-я][0-9]{5}[A-Z|А-Я]{2}")  # a12345BC
 ]
 
 
@@ -42,31 +41,22 @@ def parser(string: str) -> "None, str":
 
 class Parser:
     _string = None
-    _tokens = None
-    _tpl = r"[0-9]{3}-[0-9]{2}[A-Z]{2}"
+    tokens = None
 
     def __init__(self, string: str):
         if not isinstance(string, str):
             raise TypeError
         self._string = string
-        self._tokens = string.split()
+        self.tokens = dict()
         self._string_processing()
 
     def _string_processing(self):
-        buff = ""
-        for word in self._tokens:
-            word = self._deleting_punctuality(word)
-            if "-" in word and len(word) is 8 and search(self._tpl, word):
-                tmp = buff + word
-            buff = word
-
-    def _deleting_punctuality(self, word):
-        print(word)
-        word = sub(r"^\W.{6}\W$", "", word)
-        print(word)
-        print()
-        return word
+        global base
+        self.tokens["first"] = base[0].findall(self._string)
+        self.tokens["second"] = base[1].findall(self._string)
+        self.tokens["third"] = base[2].findall(self._string)
 
 
 obj = Parser(",AА1234BB, 12 123-45AB, a12345BC")
-
+for i in obj.tokens.values():
+    print(i)
