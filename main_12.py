@@ -142,14 +142,14 @@ def task_1() -> None:
     """ Подключитесь к API НБУ (описание API - https://old.bank.gov.ua/doccatalog/document?id=72819047) с помошью
        функции, получите текущий курс валют"""
     print(" -> task 1:")
-    exmpl1 = DataOperating("nbu_content.json", "nbu_curs.txt")
+    exmpl1 = DataOperating("Files/nbu_content.json", "Files/nbu_curs.txt")
     print(exmpl1)
 
 
 def task_2() -> None:
     """Запишите полученные данные в файл в таком же виде"""
-    exmpl2 = DataOperating("nbu_content.json", "nbu_curs.txt")
-    exmpl2.writing_into("nbu_curs.txt", str(exmpl2))
+    exmpl2 = DataOperating("Files/nbu_content.json", "Files/nbu_curs.txt")
+    exmpl2.writing_into("Files/nbu_content.json", str(exmpl2))
 
 
 def task_3() -> None:
@@ -158,7 +158,7 @@ def task_3() -> None:
        ответ. Формат ввода пользователем данных - на ваше усмотрение. Реализовать с помощью ООП!"""
     print(" -> task 3:")
     lst = input_processing()
-    exmpl3 = DataOperating("nbu_content.json", "nbu_curs.txt", lst[0])
+    exmpl3 = DataOperating("Files/nbu_content.json", "Files/nbu_curs.txt", lst[0])
     check_list = exmpl3.load_json_as_list()
     if len(check_list) == 0:
         raise Exception(f"No information for such date({lst[0]})")
