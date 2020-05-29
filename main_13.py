@@ -1,6 +1,6 @@
 #######################################################################################################################
 # Выполнил: Иван Суханюк(Курс: Intro Python (07.04.2020))
-# Последние изменения: 24.05.2020
+# Последние изменения: 30.05.2020
 # -> task 1: Создайте репозиторий на GitLab или GitHub. Сохраните туда игру (далее любые изменения игры публикуйте
 #   с помощью git). Сохраните отдельной веткой (пусть будет HW14) дз по регулярным выражениям
 # -> task 2: Напишите функцию для парсинга номерных знаков автомоблей Украины (стандарты - AА1234BB, 12 123-45AB,
@@ -11,79 +11,81 @@
 #######################################################################################################################
 from re import *
 
-# AА1234BB, 12 123-45AB, a12345BC
-# r"[A-Z]{2}[0-9]{4}[A-Z]{2}", r"[1-9]{2}\s[0-9]{3}-[0-9]{2}[A-Z]{2}", r"[a-z][0-9]{5}[A-Z]{2}"
-base = [
-    compile(r"[A-Z|А-Я]{2}[0-9]{4}[A-Z|А-Я]{2}"),  # AА1234BB
-    compile(r"[1-9]{2}\s[0-9]{3}-[0-9]{2}[A-Z|А-Я]{2}"),  # 12 123-45AB
-    compile(r"[a-z|а-я][0-9]{5}[A-Z|А-Я]{2}")  # a12345BC
-]
-
-
-# def single_string_parser(string: str) -> "None, str":
-#     global base
-#     length = len(string)
-#     if not isinstance(string, str) or len(string) > 12:
-#         raise Exception("length or type error")
-#     if length == 8:
-#         if string[1].isdigit():
-#             return base[2].search(string).string
-#         else:
-#             return base[0].search(string).string
-#     elif length == 11 and "-" in string and " " in string:
-#         return base[1].search(string).string
-#     raise Exception("Not found")
-
-
-# print(parser("AА1234BB"))
-# print(parser("12 123-45AB"))
-# print(parser("a12345BC"))
 
 class Parser:
     __string = None
     __tokens = None
+    __base = [
+        compile(r"[A-Z|А-Я]{2}[0-9]{4}[A-Z|А-Я]{2}"),
+        compile(r"[1-9]{2}\s[0-9]{3}-[0-9]{2}[A-Z|А-Я]{2}"),
+        compile(r"[a-z|а-я][0-9]{5}[A-Z|А-Я]{2}")
+    ]
 
     def __init__(self, string: str):
+        """Конструктор, в котором сохраняется введенная строка и парситься"""
         if not isinstance(string, str):
             raise TypeError
-        self._string = string
+        self.__string = string
         self.__tokens = dict()
-        self.__whole_string_processing()
+        if len(string) >= 11:
+            self.__flag = True
+            self.__whole_string_processing()
+        else:
+            self.__tokens["single"] = self.single_string_parser(string)
 
     def __whole_string_processing(self):
-        global base
-        self.__tokens["first"] = base[0].findall(self._string)
-        self.__tokens["second"] = base[1].findall(self._string)
-        self.__tokens["third"] = base[2].findall(self._string)
+        """Метод, который находит все типы номерних знаков и записывает их в словарь"""
+        self.__tokens["first"] = self.__base[0].findall(self.__string)
+        self.__tokens["second"] = self.__base[1].findall(self.__string)
+        self.__tokens["third"] = self.__base[2].findall(self.__string)
 
     @property
     def first_type_num(self):
         return self.__tokens["first"]
 
-    @staticmethod
-    def single_string_parser(string: str) -> "None, str":
-        global base
+    @property
+    def second_type_num(self):
+        return self.__tokens["second"]
+
+    @property
+    def third_type_num(self):
+        return self.__tokens["third"]
+
+    @property
+    def string(self):
+        return self.__string
+
+    @classmethod
+    def single_string_parser(cls, string: str) -> "None, str":
+        """Метод класса для поиска любого типа номерных знаков"""
         length = len(string)
-        if not isinstance(string, str) or len(string) > 12:
-            raise Exception("length or type error")
         if length == 8:
             if string[1].isdigit():
-                return base[2].search(string).string
+                return cls.__base[2].search(string).string
             else:
-                return base[0].search(string).string
+                return cls.__base[0].search(string).string
         elif length == 11 and "-" in string and " " in string:
-            return base[1].search(string).string
-        raise Exception("Not found")
+            return cls.__base[1].search(string).string
+        raise Exception("Patern not found or punctuality in string")
 
     def __str__(self):
+        tkn_set = self.__tokens.keys()
         output_str = "+------------------------+\n"
         output_str += f"| string: {self.__string}\n"
-        output_str += f"+--------------------------+\n"
+        if "single" not in tkn_set:
+            for key in tkn_set:
+                output_str += f"| {key} type:\n"
+                for val in self.__tokens[key]:
+                    output_str += f"|\t\t{val}\n"
+        else:
+            output_str += f"| result: {self.__tokens['single']}\n"
+        output_str += f"+------------------------+\n"
+        return output_str
 
 
-# obj = Parser(",AА1234BB, 12 123-45AB, a12345BC")
-# for i in obj.tokens.values():
-#     print(i)
+if __name__ == "__main__":
+    exmpl = Parser("AА1234BB12 123-45ABa12345BCAА1234BBAА1234BB12 123-45ABa12345BCAА1234BB")
+    print(exmpl)
 
 
 
