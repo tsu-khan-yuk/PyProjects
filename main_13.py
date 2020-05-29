@@ -27,7 +27,8 @@ class Parser:
             raise TypeError
         self.__string = string
         self.__tokens = dict()
-        if len(string) >= 11:
+        val = len(string)
+        if len(string) >= 12:
             self.__flag = True
             self.__whole_string_processing()
         else:
@@ -84,7 +85,8 @@ class Parser:
 
 
 if __name__ == "__main__":
-    exmpl = Parser("AА1234BB12 123-45ABa12345BCAА1234BBAА1234BB12 123-45ABa12345BCAА1234BB")
+    # exmpl = Parser("AА1234BB12 123-45ABa12345BCAА1234BBAА1234BB12 123-45ABa12345BCAА1234BB")
+    exmpl = Parser("12 123-45AB")
     print(exmpl)
 
 
