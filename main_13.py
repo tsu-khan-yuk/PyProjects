@@ -20,19 +20,19 @@ base = [
 ]
 
 
-def parser(string: str) -> "None, str":
-    global base
-    length = len(string)
-    if not isinstance(string, str) or len(string) > 12:
-        raise Exception("length or type error")
-    if length == 8:
-        if string[1].isdigit():
-            return base[2].search(string)
-        else:
-            return base[0].search(string)
-    elif length == 11 and "-" in string and " " in string:
-        return base[1].search(string)
-    raise Exception("Not found")
+# def single_string_parser(string: str) -> "None, str":
+#     global base
+#     length = len(string)
+#     if not isinstance(string, str) or len(string) > 12:
+#         raise Exception("length or type error")
+#     if length == 8:
+#         if string[1].isdigit():
+#             return base[2].search(string).string
+#         else:
+#             return base[0].search(string).string
+#     elif length == 11 and "-" in string and " " in string:
+#         return base[1].search(string).string
+#     raise Exception("Not found")
 
 
 # print(parser("AА1234BB"))
@@ -40,50 +40,53 @@ def parser(string: str) -> "None, str":
 # print(parser("a12345BC"))
 
 class Parser:
-    _string = None
-    tokens = None
+    __string = None
+    __tokens = None
 
     def __init__(self, string: str):
         if not isinstance(string, str):
             raise TypeError
         self._string = string
-        self.tokens = dict()
-        self._string_processing()
+        self.__tokens = dict()
+        self.__whole_string_processing()
 
-    def _string_processing(self):
+    def __whole_string_processing(self):
         global base
-        self.tokens["first"] = base[0].findall(self._string)
-        self.tokens["second"] = base[1].findall(self._string)
-        self.tokens["third"] = base[2].findall(self._string)
+        self.__tokens["first"] = base[0].findall(self._string)
+        self.__tokens["second"] = base[1].findall(self._string)
+        self.__tokens["third"] = base[2].findall(self._string)
+
+    @property
+    def first_type_num(self):
+        return self.__tokens["first"]
+
+    @staticmethod
+    def single_string_parser(string: str) -> "None, str":
+        global base
+        length = len(string)
+        if not isinstance(string, str) or len(string) > 12:
+            raise Exception("length or type error")
+        if length == 8:
+            if string[1].isdigit():
+                return base[2].search(string).string
+            else:
+                return base[0].search(string).string
+        elif length == 11 and "-" in string and " " in string:
+            return base[1].search(string).string
+        raise Exception("Not found")
+
+    def __str__(self):
+        output_str = "+------------------------+\n"
+        output_str += f"| string: {self.__string}\n"
+        output_str += f"+--------------------------+\n"
 
 
 # obj = Parser(",AА1234BB, 12 123-45AB, a12345BC")
 # for i in obj.tokens.values():
 #     print(i)
 
-def parser2(string: str) -> "None, str":
-    global base
-    length = len(string)
-    if not isinstance(string, str) or len(string) > 12:
-        raise Exception("length or type error")
-    if length == 8:
-        if string[1].isdigit():
-            return base[2].findall(string)[0]
-        else:
-            return base[0].findall(string)[0]
-    elif length == 11 and "-" in string and " " in string:
-        return base[1].findall(string)[0]
-    raise Exception("Not found")
 
 
-print(parser("AА1234BB, 12 123-45AB"))
-print(parser2("AА1234BB"), end="\n\n")
-
-print(parser("12 123-45AB"))
-print(parser2("12 123-45AB"), end="\n\n")
-
-print(parser("a12345BC"))
-print(parser2("a12345BC"), end="\n\n")
 
 
 
