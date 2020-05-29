@@ -57,6 +57,52 @@ class Parser:
         self.tokens["third"] = base[2].findall(self._string)
 
 
-obj = Parser(",AА1234BB, 12 123-45AB, a12345BC")
-for i in obj.tokens.values():
-    print(i)
+# obj = Parser(",AА1234BB, 12 123-45AB, a12345BC")
+# for i in obj.tokens.values():
+#     print(i)
+
+def parser2(string: str) -> "None, str":
+    global base
+    length = len(string)
+    if not isinstance(string, str) or len(string) > 12:
+        raise Exception("length or type error")
+    if length == 8:
+        if string[1].isdigit():
+            return base[2].findall(string)[0]
+        else:
+            return base[0].findall(string)[0]
+    elif length == 11 and "-" in string and " " in string:
+        return base[1].findall(string)[0]
+    raise Exception("Not found")
+
+
+print(parser("AА1234BB, 12 123-45AB"))
+print(parser2("AА1234BB"), end="\n\n")
+
+print(parser("12 123-45AB"))
+print(parser2("12 123-45AB"), end="\n\n")
+
+print(parser("a12345BC"))
+print(parser2("a12345BC"), end="\n\n")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
