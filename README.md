@@ -1,4 +1,4 @@
-# PyHomework
+# PyProjects_Intro
 -> **main_1**:
 
     * task 1: Дано два числа (a=10, b=30). 
